@@ -1,4 +1,4 @@
-.yy {
+.modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -8,13 +8,83 @@
     height: 100%;
     z-index: 9000;
     display: flex;
-    background-color: rgba(0,0,0,0.2);
     justify-content: center;
     align-items: center;
-    & .inner {
+    background-color: rgba(0,0,0,0);
+
+    & .alert {
         width: 80%;
-        height: 40%;
         background-color: #fff;
+        border-radius: 4px;
+        & .header {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        & .content {
+            padding: 10px;
+            min-height: 60px;
+            text-align: center;
+        }
+        & .footer {
+            padding: 10px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            & a {
+                display: block;
+            }
+        }
+    }
+
+    & .toast {
+        width: auto;
+        padding: 10px;
+        background-color:rgba(0,0,0,.5);
+        color: #fff;
+        border-radius: 4px;
+    }
+
+    & .loading-text {
+        color: #666;
+    }
+    & .loading-icon {
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0,0,0,.5);
+        border-radius: 4px;
+        & .icon {
+            width: 20px;
+            height: 20px;
+            display: block;
+            background-color: #fff;
+        }
+    }
+    & .loading-icon-text {
+        padding: 20px;
+        background-color: rgba(0,0,0,.5);
+        border-radius: 4px;
+        & .icon {
+            width: 20px;
+            height: 20px;
+            margin: 0 auto;
+            display: block;
+            background-color: #fff;
+        }
+        & .text {
+            color: #fff;
+        }
     }
 }
 
+.fade-in {
+    animation-name: fadeIn;
+    animation-duration: .3s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+@keyframes fadeIn {
+    from {background-color:rgba(0,0,0,0);}
+    to {background-color:rgba(0,0,0,.3);}
+}
