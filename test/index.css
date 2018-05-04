@@ -1,0 +1,17 @@
+.input-code a {
+    display: block;
+    width: 2.30rem;
+    height: .72rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #3FC44A;
+    color: #fff;
+    font-size: .3rem;
+    flex-shrink: 0;
+}
+.input-code a[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

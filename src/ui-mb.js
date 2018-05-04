@@ -332,8 +332,6 @@ const checkbox = function (id, {checked=false, appearance='checkbox', beforeChec
     }
 }
 
-
-
 export {
     alert,
     toast,
