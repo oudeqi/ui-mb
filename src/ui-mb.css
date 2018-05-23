@@ -1,4 +1,9 @@
-.modal {
+.ui-mb__modal * {
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color:rgba(255,0,0,0);
+}
+.ui-mb__modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,106 +16,8 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0,0,0,0);
-
-    & .confirm {
-        width: 80%;
-        background-color: #fff;
-        border-radius: 4px;
-        & .header {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-        & .content {
-            padding: 10px;
-            min-height: 60px;
-            text-align: center;
-        }
-        & .footer {
-            text-align: center;
-            border-top: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            & a {
-                display: block;
-                flex-grow: 1;
-                padding: 10px;
-                text-decoration: none;
-                &:first-child {
-                    border-right: 1px solid #eee;
-                }
-            }
-        }
-    }
-
-    & .alert {
-        width: 80%;
-        background-color: #fff;
-        border-radius: 4px;
-        & .header {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-        & .content {
-            padding: 10px;
-            min-height: 60px;
-            text-align: center;
-        }
-        & .footer {
-            padding: 10px;
-            text-align: center;
-            border-top: 1px solid #eee;
-            & a {
-                display: block;
-            }
-        }
-    }
-
-    & .toast {
-        width: auto;
-        padding: 10px;
-        background-color:rgba(0,0,0,.5);
-        color: #fff;
-        border-radius: 4px;
-    }
-
-    & .loading-text {
-        color: #666;
-    }
-    & .loading-icon {
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0,0,0,.5);
-        border-radius: 4px;
-        & .icon {
-            width: 20px;
-            height: 20px;
-            display: block;
-            background-color: #fff;
-        }
-    }
-    & .loading-icon-text {
-        padding: 20px;
-        background-color: rgba(0,0,0,.5);
-        border-radius: 4px;
-        & .icon {
-            width: 20px;
-            height: 20px;
-            margin: 0 auto;
-            display: block;
-            background-color: #fff;
-        }
-        & .text {
-            color: #fff;
-        }
-    }
 }
-
-.fade-in {
+.ui-mb__fade-in {
     animation-name: fadeIn;
     animation-duration: .3s;
     animation-timing-function: ease-in;
@@ -120,6 +27,194 @@
     from {background-color:rgba(0,0,0,0);}
     to {background-color:rgba(0,0,0,.3);}
 }
+
+/* alert组件 */
+.ui-mb__alert {
+    width: 80%;
+    background-color: #fff;
+    border-radius: 4px;
+    & .header .inner,
+    & .footer .inner {
+        text-align: center;
+        min-height: 48px;
+        line-height: 48px;
+        position: relative;
+    }
+    & .footer .inner a.btn {
+        display: block;
+        color: #ff5000;
+        text-decoration: none;
+        &:active {
+            background-color: #eee;
+        }
+    }
+    & .header .inner:after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #ddd;
+        transform: scaleY(.5);
+    }
+    & .footer .inner:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #ddd;
+        transform: scaleY(.5);
+    }
+    & .content .inner {
+        min-height: 66px;
+        padding-top: 18px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 16px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & p {
+            line-height: 1.5;
+        }
+    }
+}
+
+/* confirm组件 */
+.ui-mb__confirm {
+    width: 80%;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.ui-mb__confirm-header .inner {
+    text-align: center;
+    min-height: 48px;
+    line-height: 48px;
+    position: relative;
+    &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #ddd;
+        transform: scaleY(.5);
+    }
+}
+.ui-mb__confirm-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 48px;
+}
+.ui-mb__confirm-footer:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #ddd;
+    transform: scaleY(.5);
+}
+.ui-mb__confirm-footer a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    text-decoration: none;
+    height: 100%;
+}
+.ui-mb__confirm-footer a:first-child {
+    color: #333;
+    position: relative;
+}
+.ui-mb__confirm-footer a:last-child {
+    color: #FF5000;
+}
+.ui-mb__confirm-footer a:first-child:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 1px;
+    background-color: #ddd;
+    transform: scaleX(.5);
+}
+.ui-mb__confirm-footer a:active {
+    background: #eee;
+}
+
+.ui-mb__confirm-content .inner {
+    min-height: 66px;
+    padding-top: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 16px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & p {
+        line-height: 1.5;
+    }
+}
+
+/* toast组件 */
+.ui-mb__toast {
+    width: auto;
+    padding: 10px;
+    background-color:rgba(0,0,0,.5);
+    color: #fff;
+    border-radius: 4px;
+}
+
+/*loading*/
+.loading-text {
+    color: #666;
+}
+.loading-icon {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,.5);
+    border-radius: 4px;
+    & .icon {
+        width: 20px;
+        height: 20px;
+        display: block;
+        background-color: #fff;
+    }
+}
+.loading-icon-text {
+    padding: 20px;
+    background-color: rgba(0,0,0,.5);
+    border-radius: 4px;
+    & .icon {
+        width: 20px;
+        height: 20px;
+        margin: 0 auto;
+        display: block;
+        background-color: #fff;
+    }
+    & .text {
+        color: #fff;
+    }
+}
+
 
 /* checkbox */
 .btn-checkbox {
@@ -157,89 +252,97 @@
 }
 
 /* switch */
-.btn-switch {
+.ui-mb__switch {
     user-select:none;
-    display: inline-block;
-    vertical-align: middle;
+    display: block;
+    width: 64px;
     margin: 0;
     padding: 0;
 }
-.btn-switch .switch {
-    display: inline-block;
-    float: left;
-    width: 60px;
-    height: 30px;
-    border-radius: 30px;
+.ui-mb__switch span {
+    display: block;
+    width: 100%;
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    line-height: 32px;
+    height: 32px;
+    border-radius: 32px;
+    background-color: #E5E5E5;
+    z-index: 1;
 }
-.btn-switch .switch:before {
-    content: "关";
-    display: block;
-    width: 100%;
-    height: 30px;
-    line-height: 30px;
-    //padding-left: 10px;
-    //padding-right: 0;
-    background-color: #ccc;
-    text-align: left;
-    //transition: all .3s ease;
-    box-sizing: border-box;
-
-    animation-name: close;
-    animation-duration: .3s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
+.ui-mb__switch span:before {
+    content: "否";
+    font-size: 15px;
+    color: #999;
+    position: absolute;
+    right: 0;
+    left: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+    transition: transform .3s ease-out;
+    transform: translate3d(-10px,0,0);
 }
-.btn-switch .switch:after {
+.ui-mb__switch span:after {
     content: " ";
     display: block;
-    width: 26px;
-    height: 26px;
+    width: 27px;
+    height: 27px;
     background-color: #eee;
     border-radius: 50%;
     overflow: hidden;
     position: absolute;
-    top: 2px;
-    transform: translateX(32px);
-    transition: all .3s ease-out;
+    top: 3px;
+    left: 3px;
+    transition: all .25s ease-out;
+    box-shadow: 0 2px 8px 0 #666;
 }
-.btn-switch input[type="checkbox"] {
+.ui-mb__switch input[type="checkbox"] {
     display: none;
 }
-.btn-switch input[type="checkbox"]:disabled + .switch {
+.ui-mb__switch input[type="checkbox"]:disabled + span {
     cursor: initial;
 }
-.btn-switch input[type="checkbox"]:checked + .switch:before {
-    content: "开";
-    background-color: #ccc;
-    text-align: right;
-    //padding-right: 10px;
-    //padding-left: 0;
-    animation-name: open;
-    animation-duration: .3s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
+.ui-mb__switch input[type="checkbox"]:checked + span {
+    background-image: linear-gradient(-90deg, #FFC300 3%, #FFA500 97%);
 }
-.btn-switch input[type="checkbox"]:checked + .switch:after {
-    transform: translateX(2px);
-    background-color: red;
+.ui-mb__switch input[type="checkbox"]:checked + span:before {
+    content: "是";
+    font-size: 15px;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    right: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+    transform: translate3d(10px,0,0);
+    transition: transform .3s ease-out;
+}
+.ui-mb__switch input[type="checkbox"]:checked + span:after {
+    left: calc(100% - 3px - 27px);
+    background-color: #fff;
+    box-shadow: 0 2px 8px 0 #BF3C00;
 }
 
-@keyframes open {
+@keyframes switch-close {
     from {
-        padding-right: 0;
+        transform: translate3d(0,0,0);
     }
     to {
-        padding-right: 10px;
+        transform: translate3d(-10px,0,0);
     }
 }
-@keyframes close {
+@keyframes switch-open {
     from {
-        padding-left: 0;
+        transform: translate3d(0,0,0);
     }
     to {
-        padding-left: 10px;
+        transform: translate3d(10px,0,0);
     }
 }
