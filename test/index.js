@@ -9,7 +9,17 @@ import {
     checkbox
 } from 'src/ui-mb.js'
 
-// alert('内容内容内<br>容内容内容内容容')
+var xx = alert('内容内容内<br>容内容内容内容容xx')
+var yy = alert('内容内容内<br>容内容内容内容容yy')
+
+setTimeout(function(){
+    yy.close()
+    // setTimeout(function(){
+    //     xx()
+    // },1000)
+},1000)
+
+
 $('#alert').click(function () {
     alert('内容内容内<br>容内容内容内容容')
 })

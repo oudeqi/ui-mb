@@ -4,10 +4,14 @@ document.body.addEventListener('touchstart', function () {})
 const _prefix = 'ui-mb'
 const _delimiter = '__'
 
+// 所有实例
+const _instance = []
+
 // 生成随机数
 const _random = function () {
     return String(Math.random()).substr(2, 8)
 }
+
 // 生成唯一随机数
 const _existingRandomNumbers = {}
 const _unique = function () {
@@ -19,20 +23,27 @@ const _unique = function () {
         return res
     }
 }
+
 // 生成唯一id
 const _randomID = function () {
     return _prefix + _delimiter + _unique()
 }
 
-// alert组件
-const _alert = {
-    el: null
+// 删除实例
+const _removeInstance = function (id) {
+    _instance.forEach((item, i) => {
+        if (id) {
+            if (id === item.id) {
+                _instance.splice(i, 1)
+            }
+        } else {
+            _instance.splice(i, 1)
+        }
+    })
 }
+
+// alert组件
 const alert = function (content='content为字符串或者模板', btnTxt='知道了', title, fn) {
-    if (_alert.el) {
-        $('#' + _alert.el.id).remove()
-        _alert.el = null
-    }
     let _id = _randomID()
     $('body').append(`
         <div class="ui-mb__modal ui-mb__fade-in" id="${_id}">
@@ -67,13 +78,26 @@ const alert = function (content='content为字符串或者模板', btnTxt='知�
             </div>
         </div>
     `)
+    _instance.push({
+        id: _id
+    })
     $('#' + _id).find('.btn').click(function () {
         setTimeout(function(){
             $('#' + _id).remove()
-            _alert.el = null
+            _removeInstance(_id)
         }, 100)
         if (fn && typeof fn === 'function') fn()
     })
+    return {
+        id: _id,
+        close: function () {
+            setTimeout(function(){
+                $('#' + _id).remove()
+                _removeInstance(_id)
+            }, 100)
+            if (fn && typeof fn === 'function') fn()
+        }
+    }
 }
 
 // confirm组件
