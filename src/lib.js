@@ -84,7 +84,7 @@ __.ajax2 = function (url, {method, body}) {
 	}
 }
 
-__.replaceSelectOptions = function (el, arr, attr) {
+const _replaceSelectOptions = function (el, arr, attr) {
 	let tpl = arr.map(item => {
 		return `<option ${item.active?'selected':''} value="${item.value}" ${
 			((i) => {
@@ -96,12 +96,15 @@ __.replaceSelectOptions = function (el, arr, attr) {
 	el.innerHTML = tpl.join('')
 }
 
-__.replaceSelectOptionsAccordingToParent = function  (child, parent, attr) {
+const _replaceSelectOptionsAccordingToParent = function  (child, parent, attr) {
 	let value = $(parent).val()
 	let $selected = $(parent).find('option[value="'+ value +'"]')
 	let varieties = JSON.parse(decodeURIComponent($selected.attr(attr || 'data-sub')))
-	replaceSelectOptions(child, varieties, attr)
+	_replaceSelectOptions(child, varieties, attr)
 }
+
+__.replaceSelectOptions = _replaceSelectOptions
+__.replaceSelectOptionsAccordingToParent = _replaceSelectOptionsAccordingToParent
 
 __.andFn = function (aFn, bFn) {
     let aFnRunable = true

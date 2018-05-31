@@ -117,16 +117,16 @@ $('#remove').click(function(){
 
 $('#bind').on('click', __.andFn(function(runable){
     let i = 5
-    $('#bind').text(i)
+    $('#bind').text(i + 's')
     let timer = setInterval(function(){
         i--
         if (i < 0) {
             i = 5
             clearInterval(timer)
-            $('#bind').text('bind')
+            $('#bind').text('获取验证码')
             runable()
         } else {
-            $('#bind').text(i)
+            $('#bind').text(i + 's')
         }
     }, 1000)
 }, function(runable){
@@ -137,80 +137,66 @@ $('#bind').on('click', __.andFn(function(runable){
 }))
 
 
-// let sendCode = new __.countDown(5, $('#send-code')[0], function () {
-//     return new Promise(function (resolve, reject) {
-//         setTimeout(function () {
-//             return resolve('reject')
-//         }, 3000)
-//     })
-// });
-// sendCode.start(function (p) {
-//     p.then(function (data) {
-//         console.log('发送验证码成功', data)
-//     }).catch(function (err) {
-//         console.log('发送验证码出错', err)
-//     })
-// })
+let category = [
+        {
+            label: '喵喵',
+            value: 'mm',
+            variety: [
+                {
+                    label: '英短',
+                    value: 'yd'
+                },
+                {
+                    label: '美短',
+                    value: 'md',
+                    active: true
+                },
+                {
+                    label: '布偶',
+                    value: 'bo'
+                },
+                {
+                    label: '中华田园',
+                    value: 'tm'
+                },
+                {
+                    label: '串串',
+                    value: 'cc'
+                }
+            ]
+        }, 
+        {
+            label: '汪汪',
+            value: 'ww',
+            active: true,
+            variety: [
+                {
+                    label: '柯基',
+                    value: 'kj'
+                },
+                {
+                    label: '泰迪',
+                    value: 'td',
+                    active: true
+                },
+                {
+                    label: '金毛',
+                    value: 'jm'
+                },
+                {
+                    label: '中华田园',
+                    value: 'tg'
+                },
+                {
+                    label: '串串',
+                    value: 'cc'
+                }
+            ]
+        }
+    ]
+__.replaceSelectOptions($('#category')[0], category)
+__.replaceSelectOptionsAccordingToParent($('#varieties')[0], $('#category')[0])
 
-// let category = [
-//         {
-//             label: '喵喵',
-//             value: 'mm',
-//             variety: [
-//                 {
-//                     label: '英短',
-//                     value: 'yd'
-//                 },
-//                 {
-//                     label: '美短',
-//                     value: 'md',
-//                     active: true
-//                 },
-//                 {
-//                     label: '布偶',
-//                     value: 'bo'
-//                 },
-//                 {
-//                     label: '中华田园',
-//                     value: 'tm'
-//                 },
-//                 {
-//                     label: '串串',
-//                     value: 'cc'
-//                 }
-//             ]
-//         }, 
-//         {
-//             label: '汪汪',
-//             value: 'ww',
-//             active: true,
-//             variety: [
-//                 {
-//                     label: '柯基',
-//                     value: 'kj'
-//                 },
-//                 {
-//                     label: '泰迪',
-//                     value: 'td',
-//                     active: true
-//                 },
-//                 {
-//                     label: '金毛',
-//                     value: 'jm'
-//                 },
-//                 {
-//                     label: '中华田园',
-//                     value: 'tg'
-//                 },
-//                 {
-//                     label: '串串',
-//                     value: 'cc'
-//                 }
-//             ]
-//         }
-//     ]
-// __.replaceSelectOptions($('#category')[0], category)
-// __.replaceSelectOptionsAccordingToParent($('#varieties')[0], $('#category')[0])
-// $('#category').bind('change', function(){
-//     __.replaceSelectOptionsAccordingToParent($('#varieties')[0], this)
-// })
+$('#category').bind('change', function(){
+    __.replaceSelectOptionsAccordingToParent($('#varieties')[0], this)
+})
