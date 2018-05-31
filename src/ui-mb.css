@@ -91,6 +91,7 @@
     width: 80%;
     background-color: #fff;
     border-radius: 4px;
+    overflow: hidden;
 }
 .ui-mb__confirm-header .inner {
     text-align: center;
@@ -175,13 +176,76 @@
 /* toast组件 */
 .ui-mb__toast {
     width: auto;
-    padding: 10px;
-    background-color:rgba(0,0,0,.5);
+    min-height: 20px;
+    min-width: 120px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0,0,0,.6);
     color: #fff;
     border-radius: 4px;
+    max-width: 80%;
+    line-height: 1.4;
+    text-align: center;
+}
+.ui-mb__toast-success,
+.ui-mb__toast-error {
+    padding-top: 25px;
+    padding-bottom: 20px;
+    & .icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+    }
+    & p {
+        padding-top: 15px;
+        line-height: 1.3;
+    }
+}
+.ui-mb__toast-success .icon {
+    border: 2px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:after {
+        content: "ok";
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: lowercase;
+    }
+}
+.ui-mb__toast-error .icon {
+    border: 2px solid #fff;
+    position: relative;
+    transform: rotateZ(45deg);
+    &:before {
+        content: "";
+        width: 2px;
+        height: 100%;
+        background: #fff;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -1px;
+    }
+    &:after {
+        content: "";
+        width: 100%;
+        height: 2px;
+        background: #fff;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        margin-top: -1px;
+    }
 }
 
 /*loading*/
+.ui-mb__loading {
+    color: #fff;
+}
 .loading-text {
     color: #666;
 }
@@ -345,4 +409,9 @@
     to {
         transform: translate3d(10px,0,0);
     }
+}
+
+/*tab*/
+[data-role="tab"] [data-role="tab-header-item"].active {
+    color: red;
 }

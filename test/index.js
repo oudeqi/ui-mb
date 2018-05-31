@@ -6,129 +6,136 @@ import {
     toast,
     getLoading,
     confirm,
-    checkbox
+    checkbox,
+    tab
 } from 'src/ui-mb.js'
-
-var xx = alert('内容内容内<br>容内容内容内容容xx')
-var yy = alert('内容内容内<br>容内容内容内容容yy')
-
-setTimeout(function(){
-    yy.close()
-    // setTimeout(function(){
-    //     xx()
-    // },1000)
-},1000)
 
 
 $('#alert').click(function () {
-    alert('内容内容内<br>容内容内容内容容')
+    var xx = alert('内容内容内<br>容内容内容内容容')
+    console.log(xx)
+    setTimeout(function(){
+        xx.close()
+    },3000)
 })
 
 $('#confirm').click(function () {
-    confirm({
-    // title:'标题',
-    btn1: '取消',
-    btn2: '确定？',
-    content: '内容内容内<br>容内容内容内容容',
-    // created: function (el) {
-    //     window.alert('created')
-    // }
-    }).btn2(function (el, close) {
-        // close()
-        console.log(el)
-    }).btn1(function (el, close) {
-        close()
-        console.log(el)
+    var xx = confirm({
+        // title:'标题',
+        btn1: '取消',
+        btn2: '确定？',
+        content: '内容内容内<br>容内容内容内容容',
+        created: function (el) {
+            // return new Promise(function(resolve, reject){
+            //     setTimeout(function(){
+            //         resolve()
+            //     }, 3000)
+            // })
+        },
+        btn1Fn: function (res) {
+            console.log(res)
+            res.close()
+        },
+        btn2Fn: function (res) {
+            console.log(res)
+        }
     })
+    console.log(xx)
+    // setTimeout(function(){
+    //     xx.close()
+    // }, 3000)
 })
-
 
 $('#toast').click(function () {
-    toast()
-    toast('zxcz')
-    toast('13132')
+    //速度快解放后死<br>速度快解放后死
+    var xxx = toast('速度快解放后死', 'success')
 })
 
-let loading = getLoading({
-    msg: '加载中...',
-    type: 3
+let xx = getLoading()
+$('#loading').click(function () {
+    console.log(xx.loading)
+    xx.show()
+    console.log(xx.loading)
+    setTimeout(() => {
+        xx.close()
+        console.log(xx.loading)
+    },200)
 })
-// loading.show()
-setTimeout(function () {
-    loading.close()
-}, 5000)
 
-checkbox($('#test')[0], false, function(b){
-    // console.log(b)
-}, function(){
-    return new Promise(function(resolve, reject){
-        setTimeout(function(){
-            resolve()
-        }, 2000)
+var myCheckbox = checkbox(document.querySelector('#test'), {
+    // checked: true,
+    before: function (el) {
+        console.log('before', el.checked)
+        // return false
+        return new Promise(function(resolve, reject){
+            setTimeout(function(){
+                resolve()
+            }, 300)
+        })
+    },
+    change: function (el) {
+        console.log('change', el.checked)
+    },
+    after: function (el) {
+        console.log('after', el.checked)
+    }
+})
+
+// setTimeout(function(){
+//     console.log(myCheckbox.checked)
+// },1000)
+
+var myTab = tab(document.querySelector('#tab'), {
+    index: 1,
+    change: function(index){
+        // console.log(index)
+    }
+})
+setTimeout(function(){
+    myTab.add({
+        id: '#abc',
+        header: `<a data-role="tab-header-item" data-target="#abc" href="javascript:void(0);">
+                    <span>abc计划</span>
+                </a>`,
+        content: `<div data-role="tab-content-item" id="abc">
+                    <h2 class="head">abc信息...</h2>
+                </div>`
     })
+}, 2000)
+
+let i = 3
+$('#remove').click(function(){
+    if (i === 3) {
+        myTab.remove('#laliao')
+    } else if (i === 2) {
+        myTab.remove('#gouyao')
+    } else {
+        myTab.remove('#abc')
+    }
+    i--
 })
 
-// $('#loading').click(function () {
-//     let xx = loading('zxczxczxc', 3)
-//     //
-//     // let yy = loading('加载中...yy')
-//     //
-//     // let zz = loading('加载中...zz')
+$('#bind').on('click', __.andFn(function(runable){
+    let i = 5
+    $('#bind').text(i)
+    let timer = setInterval(function(){
+        i--
+        if (i < 0) {
+            i = 5
+            clearInterval(timer)
+            $('#bind').text('bind')
+            runable()
+        } else {
+            $('#bind').text(i)
+        }
+    }, 1000)
+}, function(runable){
+    setTimeout(function(){
+        console.log(123)
+        runable()
+    },3000)
+}))
 
-//     let loading_y = getLoadingInstance({
-//         msg: 'laod',
-//         type: 3
-//     })
-
-//     loading_y.show()
-
-//     setTimeout(function () {
-//         xx.close()
-//         loading_y.close()
-//     }, 2000)
-// })
-
-
-
-
-
-// let mycheckbox = checkbox('#xxx', {
-//     checked: true,
-//     appearance: 'switch',//switch checkbox
-//     // beforeChecked: function () {
-//     //     return new Promise((resolve, reject) => {
-//     //         confirm('tit', '开？').then(function (msg) {
-//     //             resolve()
-//     //         }).catch(function (msg) {
-//     //             reject()
-//     //         })
-//     //     })
-//     // },
-//     // beforeUnChecked: function () {
-//     //     return new Promise((resolve, reject) => {
-//     //         confirm('tit', '关？').then(function (msg) {
-//     //             resolve()
-//     //         }).catch(function (msg) {
-//     //             reject()
-//     //         })
-//     //     })
-//     // },
-//     // after: function () {
-//     //     return new Promise((resolve, reject) => {
-//     //         setTimeout(() => {
-//     //             reject()
-//     //         }, 1000)
-//     //     })
-//     // }
-// });
-
-// mycheckbox.on('change', (res) => {
-//     console.log('change', res)
-// })
-
-// mycheckbox.on('error', (res) => {
-//     console.log('error', res)
-// })
 
 // let sendCode = new __.countDown(5, $('#send-code')[0], function () {
 //     return new Promise(function (resolve, reject) {

@@ -103,47 +103,23 @@ __.replaceSelectOptionsAccordingToParent = function  (child, parent, attr) {
 	replaceSelectOptions(child, varieties, attr)
 }
 
-
-const countDown = function (time, el, promise) {
-    this.time = time;
-    this.el = el;
-    this.innerText = el.innerText;
-    this.promise = promise;
+__.andFn = function (aFn, bFn) {
+    let aFnRunable = true
+    let changeAFnRunable = function () {
+        aFnRunable = true
+    }
+    let bFnRunable = true
+    let changeBFnRunable = function () {
+        bFnRunable = true
+    }
+    return function () {
+        if (aFnRunable && bFnRunable) {
+            aFnRunable = false
+            bFnRunable = false
+            aFn(changeAFnRunable)
+            bFn(changeBFnRunable)
+        }
+    }
 }
-countDown.prototype.start = function (fn) {
-    let _this = this,
-        _time = _this.time,
-        _innerText = _this.innerText,
-        _timer = null;
-    _this.el.addEventListener('click', function () {
-        if (_timer) return;
-        _this.el.innerText = _time + 's'
-        _this.el.setAttribute('disabled', 'disabled')
-        _timer = setInterval(function () {
-            if (_time > 0) {
-                _time--
-                _this.el.innerText = _time + 's'
-            } else {
-                clearInterval(_timer)
-                _timer = null
-                _this.el.innerText = _innerText
-                _time = _this.time
-                _this.el.removeAttribute('disabled')
-            }
-        }, 1000)
-        fn(_this.promise().then(function (data) {
-            return data
-        }).catch(function (err) {
-            clearInterval(_timer)
-            _timer = null
-            _this.el.innerText = _innerText
-            _time = _this.time
-            _this.el.removeAttribute('disabled')
-            return Promise.reject(err)
-        }))
-    }, false)
-}
-
-__.countDown = countDown
 
 export default __
