@@ -38,11 +38,26 @@ const _removeInstance = function (id) {
     })
 }
 
+// 禁止滚动
+const _bodyScrollHandler = function (event){
+    event.preventDefault();  
+}
+const _bodyScroll = {
+    disable: function () {
+        document.body.addEventListener('touchmove', _bodyScrollHandler, false)
+        $('body').css({'position': 'fixed', 'width': '100%'})
+    },
+    enable: function () {
+        document.body.removeEventListener('touchmove', _bodyScrollHandler, false)
+        $("body").css({'position': 'initial', 'width': 'initial'})
+    }
+}
+
 // alert组件
 const alert = function (content='字符串或者字符串模板', btnTxt='知道了', title, fn) {
     let _id = _randomID()
     $('body').append(`
-        <div class="ui-mb__modal ui-mb__fade-in" id="${_id}">
+        <div class="ui-mb__modal ui-mb__center ui-mb__fade-in" id="${_id}">
             <div class="ui-mb__alert">
                 <div class="header">
                     ${
@@ -100,7 +115,7 @@ const alert = function (content='字符串或者字符串模板', btnTxt='知道
 const confirm = function ({title, content='没有内容',btn1='取消',btn2='确认',created=null,btn1Fn=null,btn2Fn=null}) {
     let _id = _randomID();
     $('body').append(`
-        <div class="ui-mb__modal ui-mb__fade-in" id="${_id}">
+        <div class="ui-mb__modal ui-mb__center ui-mb__fade-in" id="${_id}">
             <div class="ui-mb__confirm">
                 <div class="ui-mb__confirm-header">
                     ${
@@ -190,7 +205,7 @@ const toast = function (msg='默认消息', type, delay=2000) {
         timer: null
     }
     $('body').append(`
-        <div class="ui-mb__modal" id="${_toast.id}">
+        <div class="ui-mb__modal ui-mb__center" id="${_toast.id}">
             <div class="ui-mb__toast ${
                 (() => {
                     if (type === 'success') {
@@ -249,7 +264,7 @@ _instance.push({
 const getLoading = function (msg='加载中...') {
     if (!_loading.el) {
         $('body').append(`
-            <div class="ui-mb__modal ui-mb__fade-in" id="${_loading.id}"><div class="ui-mb__loading">${msg}</div></div>
+            <div class="ui-mb__modal ui-mb__center ui-mb__fade-in" id="${_loading.id}"><div class="ui-mb__loading">${msg}</div></div>
         `)
         _loading.el = $('#' + _loading.id)[0]
     }
@@ -440,12 +455,120 @@ const tab = function (el, {index=0, change}) {
     }
 }
 
+const select = function ({title, data, mult=false, btn1='取消', btn2='确定', btn1Fn, btn2Fn}) {
+
+    if (!data) { throw new Error('data is require') }
+    if (!Array.isArray(data)) { throw new Error('data is not Array') }
+    if (btn1Fn && typeof btn1Fn !== 'function') { throw new Error('btn1Fn is not function') }
+    if (btn2Fn && typeof btn2Fn !== 'function') { throw new Error('btn2Fn is not function') }
+    let _id = _randomID()
+    $('body').append(`
+        <div class="ui-mb__modal ui-mb__bottom ui-mb__fade-in" id="${_id}">
+            <div class="ui-mb__modal-select">
+                <div class="ui-mb__modal-select__header">
+                    <a class="btn" href="javvascript:void(0);">${btn1}</a>
+                    ${
+                        ((t) => {
+                            if (t) {
+                                return `<h3 class="title">${t}</h3>`
+                            } else {
+                                return ''
+                            }
+                        })(title)
+                    }
+                    <a class="btn" href="javvascript:void(0);">${btn2}</a>
+                </div>
+                <ul class="ui-mb__modal-select__content">
+                    ${
+                        ((arr) => {
+                            let res = []
+                            arr.forEach((item) => {
+                                res.push(`
+                                    <li>
+                                        <label>
+                                            <span class="text">${item.label}</span>
+                                            <input class="${ mult ? 'checkbox' : 'radio' }" data-label="${item.label}" data-value="${item.value}" type="checkbox">
+                                            <span class="icon"></span>
+                                        </label>
+                                    </li>
+                                `)
+                            })
+                            return res.join('')
+                        })(data)
+                    }
+                </ul>
+            </div>
+        </div>
+    `)
+    let $allCheckbox = $('#' + _id).find('input[type="checkbox"]')
+    if (mult) {
+        data.forEach((item, i) => {
+            if (item.checked) {
+                $allCheckbox.eq(i).prop('checked',true)
+            }
+        })
+    } else {
+        let checkedArr = []
+        data.forEach((item, i) => {
+            if (item.checked) {
+                checkedArr.push(i)
+            }
+        })
+        $allCheckbox.eq(checkedArr[checkedArr.length - 1]).prop('checked',true)
+        $allCheckbox.on('click', function (e) {
+            e.preventDefault()
+            _nextTick(() => {
+                console.log(this.checked)
+                let _oldValue = this.checked
+                if (_oldValue) {
+                    this.checked = false
+                } else {
+                    $allCheckbox.prop('checked', false)
+                    this.checked = true
+                }
+            })
+            
+        })
+    }
+
+    const _remove = function () {
+        $('#' + _id).remove()
+        _removeInstance(_id)
+        _bodyScroll.enable()
+    }
+    const _getChecked = function () {
+        let res = []
+        $allCheckbox.each((i, item) => {
+            if (item.checked) {
+                res.push({
+                    label: $(item).attr('data-label'),
+                    value: $(item).attr('data-value')
+                }) 
+            }
+        })
+        return res
+    }
+    _bodyScroll.disable()
+    $('#' + _id).find('a.btn').click(function(){
+        if ($(this).index() === 0) {
+            btn1Fn(_getChecked())
+            _remove()
+        }
+        if ($(this).index() === 1) {
+            btn2Fn(_getChecked())
+            _remove()
+        }
+    })
+
+}
+
 export {
     alert,
     toast,
     getLoading,
     confirm,
     checkbox,
-    tab
+    tab,
+    select
 }
 

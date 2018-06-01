@@ -7,7 +7,8 @@ import {
     getLoading,
     confirm,
     checkbox,
-    tab
+    tab,
+    select
 } from 'src/ui-mb.js'
 
 
@@ -115,7 +116,7 @@ $('#remove').click(function(){
     i--
 })
 
-$('#bind').on('click', __.andFn(function(runable){
+$('#bind').on('click', __.everyFn(function(runable){
     let i = 5
     $('#bind').text(i + 's')
     let timer = setInterval(function(){
@@ -134,6 +135,10 @@ $('#bind').on('click', __.andFn(function(runable){
         console.log(123)
         runable()
     },3000)
+}, function(runable){
+    setTimeout(() => {
+        runable()
+    }, 8000)
 }))
 
 
@@ -199,4 +204,43 @@ __.replaceSelectOptionsAccordingToParent($('#varieties')[0], $('#category')[0])
 
 $('#category').bind('change', function(){
     __.replaceSelectOptionsAccordingToParent($('#varieties')[0], this)
+    console.log($('#category option').not(function () { return !this.selected; }).text())
 })
+
+console.log(__.add(0.1, 1.1))
+console.log(0.1 + 1.1)
+
+$('#select').click(function() {
+    let arr = [
+        {
+            label: '泰迪',
+            value: 'td',
+            checked: true
+        },
+        {
+            label:'中华田园',
+            value: 'tg',
+            checked: true
+        },
+        {
+            label:'串串',
+            value: 'cc'
+        }
+    ]
+    select({
+        // title: '我是标题1',
+        data:arr, 
+        // mult: true,
+        btn1Fn: function(checked){
+            console.log(checked)
+        },
+        btn2Fn: function(checked){
+            console.log(checked)
+        }
+    })
+})
+
+__.bodyScroll.disable()
+setTimeout(function(){
+    __.bodyScroll.enable()
+},2000)

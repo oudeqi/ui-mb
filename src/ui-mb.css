@@ -12,9 +12,18 @@
     width: 100%;
     height: 100%;
     z-index: 9000;
+}
+.ui-mb__center {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(0,0,0,0);
+}
+.ui-mb__bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
     background-color: rgba(0,0,0,0);
 }
 .ui-mb__fade-in {
@@ -414,4 +423,83 @@
 /*tab*/
 [data-role="tab"] [data-role="tab-header-item"].active {
     color: red;
+}
+
+/* 弹窗select */
+
+.ui-mb__modal-select {
+    background: #fff;
+}
+.ui-mb__modal-select__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    & a.btn {
+        text-decoration: none;
+        color: red;
+    }
+    & h3.title {
+        color: #333;
+        font-size: inherit;
+        font-weight: normal;
+    }
+}
+.ui-mb__modal-select__content {
+    position: relative;
+    padding: 10px 0;
+    list-style: none;
+    &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: #ccc;
+        transform: scaleY(.5);
+    };
+    & li label{
+        height: 40px;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        &:active {
+            background: #eee;
+        }
+        & .text {
+            flex-grow: 1;
+        }
+        & input[type="checkbox"].checkbox {
+            display: none;
+        }
+        & input[type="checkbox"].checkbox + .icon {
+            flex-shrink: 0;
+            display: block;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        & input[type="checkbox"].checkbox:checked + .icon {
+            background: red;
+            border: 1px solid red;
+        }
+        & input[type="checkbox"].radio {
+            display: none;
+        }
+        & input[type="checkbox"].radio + .icon {
+            flex-shrink: 0;
+            display: block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+        }
+        & input[type="checkbox"].radio:checked + .icon {
+            background: red;
+            border: 1px solid red;
+        }
+    }
 }
