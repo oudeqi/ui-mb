@@ -455,7 +455,7 @@ const tab = function (el, {index=0, change}) {
     }
 }
 
-const select = function ({title, data, mult=false, btn1='取消', btn2='确定', btn1Fn, btn2Fn}) {
+const select = function ({title, data, checked, mult=false, btn1='取消', btn2='确定', btn1Fn, btn2Fn}) {
 
     if (!data) { throw new Error('data is require') }
     if (!Array.isArray(data)) { throw new Error('data is not Array') }
@@ -507,18 +507,32 @@ const select = function ({title, data, mult=false, btn1='取消', btn2='确定',
                 $allCheckbox.eq(i).prop('checked',true)
             }
         })
+        if (checked) {
+            if (!Array.isArray(checked)) { throw new Error('checked is not Array') }
+            checked.forEach((item) => {
+                $allCheckbox.each((index, i) => {
+                    if ($(i).attr('data-value') === item) { $(i).prop('checked',true) }
+                })
+            })
+        }
     } else {
-        let checkedArr = []
-        data.forEach((item, i) => {
-            if (item.checked) {
-                checkedArr.push(i)
-            }
-        })
-        $allCheckbox.eq(checkedArr[checkedArr.length - 1]).prop('checked',true)
+        if (checked) {
+            if (typeof checked !== 'string') { throw new Error('checked is not string') }
+            $allCheckbox.each((index, i) => {
+                if ($(i).attr('data-value') === checked) { $(i).prop('checked',true) }
+            })
+        } else {
+            let checkedArr = []
+            data.forEach((item, i) => {
+                if (item.checked) {
+                    checkedArr.push(i)
+                }
+            })
+            $allCheckbox.eq(checkedArr[checkedArr.length - 1]).prop('checked',true)
+        }
         $allCheckbox.on('click', function (e) {
             e.preventDefault()
             _nextTick(() => {
-                console.log(this.checked)
                 let _oldValue = this.checked
                 if (_oldValue) {
                     this.checked = false
@@ -559,7 +573,6 @@ const select = function ({title, data, mult=false, btn1='取消', btn2='确定',
             _remove()
         }
     })
-
 }
 
 export {

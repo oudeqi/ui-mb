@@ -60,7 +60,7 @@ $('#loading').click(function () {
     setTimeout(() => {
         xx.close()
         console.log(xx.loading)
-    },200)
+    },2000)
 })
 
 var myCheckbox = checkbox(document.querySelector('#test'), {
@@ -230,12 +230,14 @@ $('#select').click(function() {
     select({
         // title: '我是标题1',
         data:arr, 
+        // checked: ['cc'],
         // mult: true,
         btn1Fn: function(checked){
-            console.log(checked)
+
+            console.log(JSON.stringify(checked))
         },
         btn2Fn: function(checked){
-            console.log(checked)
+            console.log(JSON.stringify(checked))
         }
     })
 })
