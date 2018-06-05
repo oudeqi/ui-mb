@@ -575,6 +575,162 @@ const select = function ({title, data, checked, mult=false, btn1='取消', btn2=
     })
 }
 
+
+class DatePicker {
+    constructor(el, active) {
+        this.active = active || null
+        this.el = el
+        this.now = null
+        this.prevMonth = null
+        this.currMonth = null
+        this.nextMonth = null
+        this.init(active)
+        this.render()
+    }
+    init (date) {
+        this.setNow(date)
+        this.setPrevMonth()
+        this.setCurrMonth()
+        this.setNextMonth()
+    }
+    setNow (date) {
+        this.now = date || new Date()
+    }
+    setPrevMonth () {
+        let firstDate = new Date(this.now).setDate(1)
+        let prevMonthDay = new Date(firstDate).getDay() - 1
+        if (prevMonthDay < 0) prevMonthDay = 6
+        if (prevMonthDay === 0) prevMonthDay = 7
+        let prevMonth = []
+        for (let i = 0; i < prevMonthDay; i++) {
+            let _date = new Date(this.now.getFullYear(), this.now.getMonth(), -i)
+            prevMonth.unshift({
+                year: _date.getFullYear(),
+                month: _date.getMonth(),
+                date: _date.getDate()
+            })
+        }
+        this.prevMonth = prevMonth
+    }
+    setCurrMonth () {
+        let firstDate = new Date(this.now).setDate(1)
+        let lastDate = new Date(this.now.getFullYear(), this.now.getMonth() + 1, 1).getTime()
+        let currMonthDay = (lastDate - firstDate) / 24 / 60 / 60 / 1000
+        let currMonth = []
+        for (var i = 0; i < currMonthDay; i++) {
+            currMonth.push({
+                year: this.now.getFullYear(),
+                month: this.now.getMonth(),
+                date: i + 1
+            })
+        }
+        this.currMonth = currMonth
+    }
+    setNextMonth () {
+        let nextMonthDay = 7 * 6 - this.prevMonth.length - this.currMonth.length
+        let nextMonth = []
+        for (let i = 0; i < nextMonthDay; i++) {
+            let _date = new Date(this.now.getFullYear(), this.now.getMonth() + 1, (i + 1))
+            nextMonth.push({
+                year: _date.getFullYear(),
+                month: _date.getMonth(),
+                date: _date.getDate()
+            })
+        }
+        this.nextMonth = nextMonth
+    }
+    render () {
+        function formatNumber (i) {
+            return i > 9 ? i : '0' + i
+        }
+        let currMonth = this.now.getMonth()
+        let currPage = [].concat(this.prevMonth, this.currMonth, this.nextMonth)
+        let index = 0
+        function renderTd () {
+            let obj = currPage[index]
+            index++
+            if (currMonth === obj.month) {
+                return `<td data-date=${obj.year+','+obj.month+','+obj.date}>${obj.date}</td>`
+            } else {
+                return `<td class="gray" data-date=${obj.year+','+obj.month+','+obj.date}>${obj.date}</td>`
+            }
+        }
+        this.el.innerHTML = `
+            <div class="ui-mb__datepicker-warpper">
+                <div class="ui-mb__datepicker-header">
+                    <a href="javascript:void(0);" class="ui-mb__datepicker-btn ui-mb__datepicker-prev-btn">&lt;</a>
+                    <span class="ui-mb__datepicker-curr-month">${this.now.getFullYear()}-${formatNumber(this.now.getMonth() + 1)}</span>
+                    <a href="javascript:void(0);" class="ui-mb__datepicker-btn ui-mb__datepicker-next-btn">&gt;</a>
+                </div>
+                <div class="ui-mb__datepicker-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>一</th>
+                                <th>二</th>
+                                <th>三</th>
+                                <th>四</th>
+                                <th>五</th>
+                                <th>六</th>
+                                <th>日</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                ${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}
+                            </tr>
+                            <tr>
+                                ${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}
+                            </tr>
+                            <tr>
+                                ${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}
+                            </tr>
+                            <tr>
+                                ${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}
+                            </tr>
+                            <tr>
+                                ${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}
+                            </tr>
+                            <tr>
+                                ${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}${renderTd()}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>  
+        `
+        if (this.active) {
+            $(`td[data-date="${this.active.getFullYear()+','+this.active.getMonth()+','+this.active.getDate()}"]`).addClass('active')
+        }
+        
+        $('td').click(function() {
+            console.log($(this).attr('data-date'))
+            alert($(this).attr('data-date'))
+        })
+        
+        $(`.ui-mb__datepicker-prev-btn`).click(() => {
+            let prevMonthFirstDate = new Date(this.now.getFullYear(), this.now.getMonth() - 1, 1).getTime()
+            let currMonthLastDate = new Date(this.now.getFullYear(), this.now.getMonth(), 1).getTime()
+            let day = (currMonthLastDate - prevMonthFirstDate) / 24 / 60 / 60 / 1000
+            if (this.now.getDate() < day) {
+                day = this.now.getDate()
+            }
+            this.init(new Date(new Date(new Date(this.now).setMonth(this.now.getMonth() - 1)).setDate(day)))
+            this.render()
+        })
+        $(`.ui-mb__datepicker-next-btn`).click(() => {
+            let nextMonthFirstDate = new Date(this.now.getFullYear(), this.now.getMonth() + 2, 1).getTime()
+            let currMonthLastDate = new Date(this.now.getFullYear(), this.now.getMonth() + 1, 1).getTime()
+            let day = (nextMonthFirstDate - currMonthLastDate) / 24 / 60 / 60 / 1000
+            if (this.now.getDate() < day) {
+                day = this.now.getDate()
+            }
+            this.init(new Date(new Date(new Date(this.now).setMonth(this.now.getMonth() + 1)).setDate(day)))
+            this.render()
+        })
+    }
+}
+
 export {
     alert,
     toast,
@@ -582,6 +738,7 @@ export {
     confirm,
     checkbox,
     tab,
-    select
+    select,
+    DatePicker
 }
 

@@ -8,7 +8,8 @@ import {
     confirm,
     checkbox,
     tab,
-    select
+    select,
+    DatePicker
 } from 'src/ui-mb.js'
 
 
@@ -207,8 +208,8 @@ $('#category').bind('change', function(){
     console.log($('#category option').not(function () { return !this.selected; }).text())
 })
 
-console.log(__.add(0.1, 1.1))
-console.log(0.1 + 1.1)
+// console.log(__.add(0.1, 1.1))
+// console.log(0.1 + 1.1)
 
 $('#select').click(function() {
     let arr = [
@@ -242,7 +243,10 @@ $('#select').click(function() {
     })
 })
 
-__.bodyScroll.disable()
-setTimeout(function(){
-    __.bodyScroll.enable()
-},2000)
+// __.bodyScroll.disable()
+// setTimeout(function(){
+//     __.bodyScroll.enable()
+// },2000)
+
+
+new DatePicker(document.querySelector('.datepicker'), new Date(2018, 6, 10))

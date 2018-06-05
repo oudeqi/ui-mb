@@ -504,3 +504,83 @@
         }
     }
 }
+
+/* 日期插件 */
+.ui-mb__datepicker-warpper {
+    /*width: 240px;*/
+    width: 100%;
+    /*border: 1px solid #ddd;*/
+    box-shadow: 2px 2px 8px 2px rgba(128,128,128,.3);
+    color: #555;
+    padding-bottom: 10px;
+    & .ui-mb__datepicker-header {
+        height: 46px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & .ui-mb__datepicker-btn {
+            color: red;
+            width: 46px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            flex-shrink: 0;
+            /*font-family: "Simsun";*/
+            font-family: "SimHei";
+        }
+        & .ui-mb__datepicker-prev-btn {}
+        & .ui-mb__datepicker-next-btn {}
+        & .ui-mb__datepicker-curr-month {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+    }
+    & .ui-mb__datepicker-body table {
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        & th {
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        & td {
+            height: 30px;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+            /*border: 1px solid #eee;*/
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            &.gray {
+                color: #ddd;
+            }
+            &.active {
+                background: #999;
+                color: #fff;
+            }
+            &:active {
+                background: #ccc;
+                color: #fff;
+            }
+        }
+    }
+}
+
+
+
